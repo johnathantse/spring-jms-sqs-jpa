@@ -14,7 +14,7 @@ import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.amazonaws.services.sqs.AmazonSQSClient;
-import com.jms.aws.springbootjmsaws.sqs.SqsSender;
+import com.jms.aws.springbootjmsaws.sqs.SqsProducer;
 
 @SpringBootApplication()
 @EnableSqs
@@ -24,15 +24,16 @@ public class SpringbootJmsAwsApplication {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SpringbootJmsAwsApplication.class);
 
 	public static void main(String[] args) {
+		SpringApplication.run(SpringbootJmsAwsApplication.class, args);
+
+		// ConfigurableApplicationContext context =
 		// SpringApplication.run(SpringbootJmsAwsApplication.class, args);
+		// SqsSender sender = context.getBean(SqsSender.class);
+		// try {
+		// sender.sendMessage("Test hello 2");
+		// } catch (IOException e) {
 
-		ConfigurableApplicationContext context = SpringApplication.run(SpringbootJmsAwsApplication.class, args);
-		SqsSender sender = context.getBean(SqsSender.class);
-		try {
-			sender.sendMessage("Test hello 2");
-		} catch (IOException e) {
-
-		}
+		// }
 
 		// MsgConsumer msgConsumer = context.getBean(MsgConsumer.class);
 		// msgConsumer.consumeMessage("Test2");
