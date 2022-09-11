@@ -15,32 +15,22 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 @Component
-public class MsgConsumer implements MessageListener {
+public class MsgConsumer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MsgConsumer.class);
 
-    @Value("${cloud.aws.end-point.uri}")
-    private String destination;
-
-    // @JmsListener(destination = "${cloud.aws.end-point.uri}")
-    // public void consumeMessage(String message) {
-    // System.out.println(destination);
-    // LOGGER.info("Received message: {}", message);
-    // }
-
     @SqsListener("https://sqs.us-west-1.amazonaws.com/910629648812/MyQueue")
     public void loadMessageFromSQS(String message) {
-        System.out.println(message);
         LOGGER.info("Recieved message from SQS queue: {}", message);
     }
 
-    @Override
-    public void onMessage(Message message) {
-        // Cast the received message as TextMessage and print the text to screen.
-        if (message != null) {
-            System.out.println("Received: " + message);
-        }
+    // @Override
+    // public void onMessage(Message message) {
+    // // Cast the received message as TextMessage and print the text to screen.
+    // if (message != null) {
+    // System.out.println("Received: " + message);
+    // }
 
-    }
+    // }
 
 }
