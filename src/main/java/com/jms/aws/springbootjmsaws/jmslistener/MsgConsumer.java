@@ -1,4 +1,4 @@
-package com.jms.aws.springbootjmsaws;
+package com.jms.aws.springbootjmsaws.jmslistener;
 
 import javax.annotation.Resource;
 import javax.jms.JMSException;
