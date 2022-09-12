@@ -1,16 +1,10 @@
 package com.jms.aws.springbootjmsaws.h2jpa.example.controller;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.amazonaws.Request;
-import com.amazonaws.services.cloudfront.model.Method;
 import com.jms.aws.springbootjmsaws.h2jpa.example.models.Course;
 import com.jms.aws.springbootjmsaws.h2jpa.example.models.CourseNameRequest;
 import com.jms.aws.springbootjmsaws.h2jpa.example.service.CourseService;
@@ -20,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class CourseController {
@@ -34,7 +27,7 @@ public class CourseController {
     @Autowired
     private HttpsResponseService responseService;
 
-    @RequestMapping(value = COURSE_ENDPOINT + "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = COURSE_ENDPOINT + "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Course> getCourseById(@PathVariable Integer id) {
         Course course = courseService.getCourseById(id);
         return responseService.handleRequest(course);
