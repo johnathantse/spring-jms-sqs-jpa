@@ -1,15 +1,19 @@
 package com.jms.aws.springbootjmsaws.h2jpa.example.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity(name = "Course")
+@Entity
+@Table(name = "Course")
 public class Course {
     @Id
     @GeneratedValue
     private int id;
+
+    @Column(name = "courseName", unique = true)
     private String courseName;
 
     public int getId() {
@@ -30,6 +34,6 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course: Id=" + id + " , Course Name=" + courseName;
+        return "Course: Id=" + id + ", Course Name=" + courseName;
     }
 }

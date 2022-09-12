@@ -35,34 +35,75 @@ public class CourseService {
         return courseRepo.findById(id).orElse(null);
     }
 
-    public Optional<Course> updateCourse(Course course) {
-        Optional<Course> courseToUpdate = courseRepo.findById(course.getId());
-        if (!courseToUpdate.isPresent()) {
-            return null;
+    public Course updateCourse(Course course) {
+        Course originalCourse = getExistingCourseId(course.getId());
+        if (originalCourse != null) {
+            courseRepo.save(course);
+            sqsProducer.sendMessage("Successfully updated course from: " + originalCourse + " to: " + course);
         }
-        courseRepo.save(course);
-        sqsProducer.sendMessage("Successfully updated course to: " + course);
-        return courseToUpdate;
+        return course;
     }
 
-    public Optional<Course> deleteCourse(Course course) {
-        Optional<Course> courseToDelete = courseRepo.findById(course.getId());
-        if (!courseToDelete.isPresent()) {
-            return null;
+    public Course deleteCourse(Course course) {
+        Course courseToDelete = getExistingCourseId(course.getId());
+        if (courseToDelete != null) {
+            courseRepo.delete(courseToDelete);
+            sqsProducer.sendMessage("Successfully deleted course: " + course);
         }
-        courseRepo.delete(course);
-        sqsProducer.sendMessage("Successfully deleted course: " + course);
         return courseToDelete;
     }
 
-    public Course updateCourseByName(String courseName) {
-        Optional<Course> courseToUpdate = courseRepo.findByCourseName(courseName);
-        Course course = courseToUpdate.orElse(null);
+    public Course getCourseByName(String courseName) {
+        Course course = getExistingCourseByName(courseName);
+        return course;
+    }
+
+    public Course deleteCourseByName(String courseName) {
+        Course course = getExistingCourseByName(courseName);
+        if (course != null) {
+            sqsProducer.sendMessage("Successfully deleted course: " + course);
+            courseRepo.delete(course);
+        }
+        return course;
+    }
+
+    public Course updateCourseByName(String originalCourseName, String newCourseName) {
+        Course course = getExistingCourseByName(originalCourseName);
+        if (course != null) {
+            course.setCourseName(newCourseName);
+            courseRepo.save(course);
+            sqsProducer.sendMessage("Successfully set course name from " + originalCourseName + " to " + newCourseName);
+        }
+        return course;
+    }
+
+    /**
+     * Check of course id exists. If it does, return course, else null.
+     * 
+     * @param courseId
+     * @return the course object or null if not found
+     */
+    public Course getExistingCourseId(int courseId) {
+        Optional<Course> optionalCourse = courseRepo.findById(courseId);
+        Course course = optionalCourse.orElse(null);
         if (course == null) {
             return null;
         }
-        courseRepo.save(course);
         return course;
+    }
 
+    /**
+     * Check if course name exists. If it does, return course, else null.
+     * 
+     * @param courseName
+     * @return the course object or null if not found
+     */
+    public Course getExistingCourseByName(String courseName) {
+        Optional<Course> optionalCourse = courseRepo.findByCourseName(courseName);
+        Course course = optionalCourse.orElse(null);
+        if (course == null) {
+            return null;
+        }
+        return course;
     }
 }
