@@ -12,7 +12,7 @@ public class MsgConsumer {
 
     @SqsListener("https://sqs.us-west-1.amazonaws.com/910629648812/MyQueue")
     public void loadMessageFromSQS(String message) {
-        LOGGER.info("Recieved message from SQS queue: {}", message);
+        LOGGER.info("Received message from SQS queue: {}", message);
     }
 
 }

@@ -9,6 +9,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Course")
 public class Course {
+
+    public Course() {
+    }
+
+    public Course(int id, String courseName) {
+        this.id = id;
+        this.courseName = courseName;
+    }
+
     @Id
     @GeneratedValue
     private int id;

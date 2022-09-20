@@ -40,6 +40,8 @@ public class CourseService {
         if (originalCourse != null) {
             courseRepo.save(course);
             sqsProducer.sendMessage("Successfully updated course from: " + originalCourse + " to: " + course);
+        } else {
+            sqsProducer.sendMessage("Unable to find and update course " + originalCourse);
         }
         return course;
     }
@@ -63,6 +65,8 @@ public class CourseService {
         if (course != null) {
             sqsProducer.sendMessage("Successfully deleted course: " + course);
             courseRepo.delete(course);
+        } else {
+            sqsProducer.sendMessage("Unable to find and delete course named " + courseName);
         }
         return course;
     }
@@ -73,6 +77,8 @@ public class CourseService {
             course.setCourseName(newCourseName);
             courseRepo.save(course);
             sqsProducer.sendMessage("Successfully set course name from " + originalCourseName + " to " + newCourseName);
+        } else {
+            sqsProducer.sendMessage("Unable to find and update course named " + originalCourseName);
         }
         return course;
     }
