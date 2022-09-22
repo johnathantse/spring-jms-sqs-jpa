@@ -27,16 +27,6 @@ public class JmsConfig {
     }
 
     @Bean
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
-        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setConnectionFactory(this.connectionFactory);
-        factory.setDestinationResolver(new DynamicDestinationResolver());
-        factory.setConcurrency("3-10");
-        factory.setSessionAcknowledgeMode(Session.CLIENT_ACKNOWLEDGE);
-        return factory;
-    }
-
-    @Bean
     public JmsTemplate defaultJmsTemplate() {
         return new JmsTemplate(this.connectionFactory);
     }
