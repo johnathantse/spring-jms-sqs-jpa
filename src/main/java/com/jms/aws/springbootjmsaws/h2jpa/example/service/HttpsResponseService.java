@@ -14,8 +14,7 @@ public class HttpsResponseService {
         return HttpStatus.BAD_REQUEST.toString();
     }
 
-    public <T> ResponseEntity<T> handleRequest(
-            T responseResult) {
+    public <T> ResponseEntity<T> handleRequest(T responseResult) {
         if (responseResult == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

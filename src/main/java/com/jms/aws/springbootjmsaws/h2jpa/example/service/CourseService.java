@@ -51,6 +51,8 @@ public class CourseService {
         if (courseToDelete != null) {
             courseRepo.delete(courseToDelete);
             sqsProducer.sendMessage("Successfully deleted course: " + course);
+        } else {
+            sqsProducer.sendMessage("Unable to find and delete course " + course);
         }
         return courseToDelete;
     }
@@ -91,11 +93,7 @@ public class CourseService {
      */
     public Course getExistingCourseId(int courseId) {
         Optional<Course> optionalCourse = courseRepo.findById(courseId);
-        Course course = optionalCourse.orElse(null);
-        if (course == null) {
-            return null;
-        }
-        return course;
+        return optionalCourse.orElse(null);
     }
 
     /**
@@ -106,10 +104,6 @@ public class CourseService {
      */
     public Course getExistingCourseByName(String courseName) {
         Optional<Course> optionalCourse = courseRepo.findByCourseName(courseName);
-        Course course = optionalCourse.orElse(null);
-        if (course == null) {
-            return null;
-        }
-        return course;
+        return optionalCourse.orElse(null);
     }
 }
